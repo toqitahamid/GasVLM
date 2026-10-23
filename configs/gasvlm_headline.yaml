@@ -1,0 +1,61 @@
+# GasVLM headline configuration.
+# Frozen V-JEPA 2 ViT-L + single low-rank LoRA adapter -> pixel-shuffle projector
+# -> SmolLM2-360M-Instruct (+ q/k/v/o LoRA, trainable token embeddings)
+# -> multi-scale [SEG]-conditioned mask decoder, with three auxiliary heads.
+model:
+  hf_repo: facebook/vjepa2-vitl-fpc64-256
+  img_size: 256
+  num_image_frames: 2          # current frame duplicated on the time axis
+  encoder_freeze: true
+  use_lora: true               # single low-rank adapter on attention q/k/v/proj
+  encoder_lora_rank: 4
+  encoder_lora_alpha: 8.0
+  llm_name: HuggingFaceTB/SmolLM2-360M-Instruct
+  llm_lora_rank: 8
+  llm_lora_alpha: 16.0
+  llm_lora_dropout: 0.05
+  llm_lora_targets: [q_proj, k_proj, v_proj, o_proj]
+  pixel_shuffle_r: 2
+  mask_size: 256
+  mask_inner_dim: 256
+  mask_num_layers: 2
+  ch4_lo: 0.0
+  ch4_hi: 55.0
+  co2_lo: 45.0
+  co2_hi: 100.0
+data:
+  train_jsonl: data/train.jsonl
+  val_jsonl: data/val.jsonl
+  test_jsonl: data/test.jsonl
+  img_size: 256
+  sample_rates:                # RES / VQA / GCG sampling weights
+    1: 0.4
+    2: 0.3
+    3: 0.3
+training:
+  epochs: 6
+  batch_size: 32
+  grad_accum: 1
+  num_workers: 8
+  optimizer: adamw
+  lr_lora: 0.0004
+  lr_other: 0.0004
+  weight_decay: 0.05
+  warmup_steps: 300
+  scheduler: cosine
+  precision: bf16
+  grad_clip: 1.0
+  grad_checkpointing: false
+  # seed: 1                    # optional; unset keeps PyTorch's default seed
+losses:
+  text: 2.0
+  mask: 2.0
+  ch4: 0.1
+  co2: 0.1
+  emit: 0.1
+logging:
+  work_dir: runs/gasvlm_headline
+  ckpt_every_n_epochs: 1
+  log_every_n_steps: 20
+  val_every_n_epochs: 1
+  # val_loss_every_epoch: true # optional; logs val loss to work_dir/val_curve.jsonl

@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# weights and data are never committed (see README for hosting)
+*.pt
+*.pth
+*.pth.tar
+*.safetensors
+/data/
+runs/
+work_dirs/
+eval_test/
+*.log
+
+.DS_Store
+.ipynb_checkpoints/
+/data

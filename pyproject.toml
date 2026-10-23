@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gasvlm"
+version = "0.1.0"
+description = "Grounded vision-language model for optical gas imaging (GasVLM)"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+packages = ["gasvlm", "gasvlm.models", "gasvlm.data", "gasvlm.utils"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
