@@ -60,7 +60,8 @@ Hub on first use.
 
 GasGround is on the Hugging Face Hub at
 [toqi/GasGround](https://huggingface.co/datasets/toqi/GasGround). You get access
-after you accept its terms.
+after you accept its terms. GasGround is released under CC BY-NC 4.0, so it may
+not be used for commercial purposes.
 
 1. Log in to the Hub with `hf auth login`.
 2. Download and unpack the dataset into `data/`, where the config looks for it:
@@ -82,7 +83,8 @@ The trained checkpoint is on the Hugging Face Hub at
 python tools/download_weights.py --repo-id toqi/GasVLM --filename gasvlm.pt
 ```
 
-The file goes to `checkpoints/gasvlm.pt`.
+The file goes to `checkpoints/gasvlm.pt`. The weights are released under
+CC BY-NC 4.0, so they may not be used for commercial purposes.
 
 ## Evaluation
 
@@ -143,4 +145,6 @@ The paper is under review. A BibTeX entry will be added here after publication.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+- Code: MIT. See [LICENSE](LICENSE).
+- GasGround dataset and trained weights:
+  [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Commercial use is not permitted.
